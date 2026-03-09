@@ -91,6 +91,16 @@ def test_create_multiple_expenses_and_list():
     """
     ...
 
+    service = create_service()
+
+    service.create_expense("Cursos", 30, "")
+    service.create_expense("Internet", 25, "")
+
+    assert service.total_amount() == 55
+
+    service.remove_expense(1)
+    assert service.total_amount() == 25
+
 
 def test_remove_expense_reduces_total():
     """
@@ -105,6 +115,13 @@ def test_remove_expense_reduces_total():
     - La prueba valida tanto la integridad de la operación de borrado como la actualización exacta del listado.
     """
     ...
+    service = create_service()
+
+    service.create_expense("Libro", 10, "", date(2025, 1, 10))
+    service.create_expense("Revista", 10, "", date(2025, 1, 20))
+    service.remove_expense(service.list_expenses()[0].id)
+    assert len(service.list_expenses()) == 1
+    assert service.list_expenses()[0].title == "Revista"
 
 
 def test_update_expense_partial_fields():
@@ -120,6 +137,13 @@ def test_update_expense_partial_fields():
     - Este test asegura que el método update_expense respeta la inmutabilidad de los campos no especificados, realizando actualizaciones parciales de manera precisa.
     """
     ...
+    service = create_service()
+    service.create_expense("Camiseta", 15, "Ropa", date(2025, 2, 10))
+    service.update_expense(service.list_expenses()[0].id, None, 18,  None)
+    assert service.list_expenses()[0].title == "Camiseta"
+    assert service.list_expenses()[0].amount == 18
+    assert service.list_expenses()[0].description == "Ropa"
+    
 
 
 def test_total_amount_after_removal():
@@ -133,3 +157,10 @@ def test_total_amount_after_removal():
     - Este test valida que el método total_amount refleja los cambios en el sistema ante eliminaciones, manteniendo la consistencia de los datos agregados.
     """
     ...
+    service = create_service()
+    service.create_expense("Internet", 25, "", date(2025, 2, 10))
+    service.create_expense("Cursos", 30, "", date(2025, 1, 10))
+    assert service.total_amount() == 55
+    service.remove_expense(service.list_expenses()[1].id)
+    service.total_amount()
+    assert service.total_amount() == 25
