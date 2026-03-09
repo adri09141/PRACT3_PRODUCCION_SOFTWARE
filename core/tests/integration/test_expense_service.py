@@ -139,11 +139,10 @@ def test_update_expense_partial_fields():
     ...
     service = create_service()
     service.create_expense("Camiseta", 15, "Ropa", date(2025, 2, 10))
-    service.update_expense(service.list_expenses()[0].id, None, 18,  None)
+    service.update_expense(service.list_expenses()[0].id, None, 18, None)
     assert service.list_expenses()[0].title == "Camiseta"
     assert service.list_expenses()[0].amount == 18
     assert service.list_expenses()[0].description == "Ropa"
-    
 
 
 def test_total_amount_after_removal():

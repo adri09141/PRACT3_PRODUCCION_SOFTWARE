@@ -76,6 +76,6 @@ def test_get_by_id_returns_none_if_not_found():
     ...
     repo = InMemoryExpenseRepository()
     repo.save(create_expense(id=1))
-    
+
     id_inexistente = len(repo.list_all()) + 1
     assert repo.get_by_id(id_inexistente) is None
